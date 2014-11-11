@@ -12,19 +12,24 @@
     }
     // Data
     self.Views = {
-        Loading: {} // Other views are added dynamically by app.addViewModel(...).
+        Loading: {template:"loading"} // Other views are added dynamically by app.addViewModel(...).
     };
+
     self.dataModel = dataModel;
 
     // UI state
     self.view = ko.observable(self.Views.Loading);
-
+    self.template = ko.observable("loading-template");
     self.loading = ko.computed(function () {
         return self.view() === self.Views.Loading;
     });
 
     // UI operations
-
+    self.viewModel = function (vm) {
+        self.template("loading-template");
+        self.view(vm);
+        self.template(vm.template+'-template');
+    }
     // Other navigateToX functions are added dynamically by app.addViewModel(...).
 
     // Other operations
@@ -66,6 +71,7 @@
         // Add navigation member to AppViewModel (for example, app.NavigateToHome());
         self["navigateTo" + options.name] = navigator;
     };
+    
 
     self.initialize = function () {
         Sammy().run();

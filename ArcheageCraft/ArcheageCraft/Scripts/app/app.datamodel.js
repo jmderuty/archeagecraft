@@ -4,6 +4,9 @@
     self.userInfoUrl = "/api/Me";
     self.siteUrl = "/";
 
+    self.professionsUrl = "/api/Professions";
+    
+
     // Route operations
 
     // Other private operations

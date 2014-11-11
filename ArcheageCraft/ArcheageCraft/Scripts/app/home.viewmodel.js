@@ -2,6 +2,7 @@
     var self = this;
 
     self.myHometown = ko.observable("");
+    self.template = "home";
 
     Sammy(function () {
         this.get('#home', function () {
@@ -17,6 +18,7 @@
                     self.myHometown('Votre ville natale est : ' + data.hometown);
                 }
             });
+            app.viewModel(self);
         });
         this.get('/', function () { this.app.runRoute('get', '#home') });
     });

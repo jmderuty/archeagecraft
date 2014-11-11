@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta charset="utf-8" />
     <title>@ViewBag.Title - Archeage craft WL</title>
     <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
@@ -23,6 +23,7 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Accueil", "Index", "Home", new { area = "" }, null)</li>
+                    <li><a href="#professions">Professions</a></li>
                     <li>@Html.ActionLink("API", "Index", "Help", new { area = "HelpPage" }, null)</li>
                 </ul>
                 @Html.Partial("_LoginPartial")
@@ -32,6 +33,7 @@
     <div class="container body-content">
         @RenderBody()
         @RenderSection("SPAViews", required: false)
+        <div data-bind="template : { name: template,data:view()}"></div>
         <hr />
         <footer>
             <p>&copy; @DateTime.Now.Year - Laëré</p>

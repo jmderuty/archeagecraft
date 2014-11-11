@@ -27,6 +27,7 @@ namespace ArcheageCraft
                 "~/Scripts/app/app.datamodel.js",
                 "~/Scripts/app/app.viewmodel.js",
                 "~/Scripts/app/home.viewmodel.js",
+                "~/Scripts/app/professions.viewmodel.js",
                 "~/Scripts/app/_run.js"));
 
             // Utilisez la version de développement de Modernizr pour développer et apprendre. Puis, lorsque vous êtes
@@ -44,7 +45,7 @@ namespace ArcheageCraft
 
             // Affectez la valeur false à EnableOptimizations pour le débogage. Pour plus d'informations,
             // consultez http://go.microsoft.com/fwlink/?LinkId=301862
-            BundleTable.EnableOptimizations = true;
+            BundleTable.EnableOptimizations = false;
         }
     }
 }

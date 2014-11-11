@@ -1,0 +1,21 @@
+﻿
+<script type="text/html" id="professions-template">
+   
+    <h3>Professions</h3>
+    <span data-bind="text:template"></span>
+    <div data-bind="foreach: professions">
+        <h3 data-bind="text: name"></h3>
+        <button data-bind="click:$parent.deleteProfession">Delete</button>
+        <hr />
+    </div>
+    <form>
+        <fieldset>
+            <legend>New</legend>
+            <label for="name">
+                Name
+            </label>
+            <input type="text" id="name" data-bind="value:name"/>
+        </fieldset>
+        <button data-bind="click:create">Submit</button>
+    </form>
+</script>
