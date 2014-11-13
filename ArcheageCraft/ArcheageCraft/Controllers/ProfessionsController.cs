@@ -18,6 +18,7 @@ namespace ArcheageCraft.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: api/Professions
+        [ActionName("")]
         public IQueryable<Profession> GetProfessions()
         {
             return db.Professions;
@@ -25,6 +26,7 @@ namespace ArcheageCraft.Controllers
 
         // GET: api/Professions/5
         [ResponseType(typeof(Profession))]
+        [ActionName("")]
         public async Task<IHttpActionResult> GetProfession(int id)
         {
             Profession profession = await db.Professions.FindAsync(id);
@@ -38,6 +40,7 @@ namespace ArcheageCraft.Controllers
 
         // PUT: api/Professions/5
         [ResponseType(typeof(void))]
+        [ActionName("")]
         public async Task<IHttpActionResult> PutProfession(int id, Profession profession)
         {
             if (!ModelState.IsValid)
@@ -73,6 +76,7 @@ namespace ArcheageCraft.Controllers
 
         // POST: api/Professions
         [ResponseType(typeof(Profession))]
+        [ActionName("")]
         public async Task<IHttpActionResult> PostProfession(Profession profession)
         {
             if (!ModelState.IsValid)
@@ -88,6 +92,7 @@ namespace ArcheageCraft.Controllers
 
         // DELETE: api/Professions/5
         [ResponseType(typeof(Profession))]
+        [ActionName("")]
         public async Task<IHttpActionResult> DeleteProfession(int id)
         {
             Profession profession = await db.Professions.FindAsync(id);

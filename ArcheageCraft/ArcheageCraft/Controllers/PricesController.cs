@@ -25,6 +25,7 @@ namespace ArcheageCraft.Controllers
 
         // GET: api/Prices/5
         [ResponseType(typeof(Price))]
+        [ActionName("")]
         public async Task<IHttpActionResult> GetPrice(int id)
         {
             Price price = await db.Prices.FindAsync(id);
@@ -38,6 +39,7 @@ namespace ArcheageCraft.Controllers
 
         // PUT: api/Prices/5
         [ResponseType(typeof(void))]
+        [ActionName("")]
         public async Task<IHttpActionResult> PutPrice(int id, Price price)
         {
             if (!ModelState.IsValid)
@@ -73,6 +75,7 @@ namespace ArcheageCraft.Controllers
 
         // POST: api/Prices
         [ResponseType(typeof(Price))]
+        [ActionName("")]
         public async Task<IHttpActionResult> PostPrice(Price price)
         {
             if (!ModelState.IsValid)
@@ -88,6 +91,7 @@ namespace ArcheageCraft.Controllers
 
         // DELETE: api/Prices/5
         [ResponseType(typeof(Price))]
+        [ActionName("")]
         public async Task<IHttpActionResult> DeletePrice(int id)
         {
             Price price = await db.Prices.FindAsync(id);

@@ -30,6 +30,7 @@
                 'Authorization': 'Bearer ' + app.dataModel.getAccessToken()
             },
             success: function (data) {
+                self.name('');
                 self.refresh();
             }
         });

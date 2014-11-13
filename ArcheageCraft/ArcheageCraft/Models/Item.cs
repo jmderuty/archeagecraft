@@ -16,10 +16,8 @@ namespace ArcheageCraft.Models
 
         public int VocationBadgeCost { get; set; }
 
-        
-
-        public virtual Profession Profession { get; set; }
-
         public virtual List<Price> Prices { get; set; }
+
+        public virtual List<Craft> Crafts { get; set; }
     }
 }

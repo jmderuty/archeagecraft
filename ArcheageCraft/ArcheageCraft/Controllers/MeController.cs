@@ -41,6 +41,7 @@ namespace ArcheageCraft.Controllers
         }
 
         // GET api/Me
+        [ActionName("")]
         public GetViewModel Get()
         {
             var user = UserManager.FindById(User.Identity.GetUserId());

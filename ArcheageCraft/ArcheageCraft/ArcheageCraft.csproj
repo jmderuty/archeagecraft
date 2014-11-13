@@ -185,6 +185,7 @@
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="Controllers\IngredientsController.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\IdentityConfig.cs" />
@@ -234,6 +235,14 @@
     <Compile Include="Migrations\201411111631472_AddCrafts.cs" />
     <Compile Include="Migrations\201411111631472_AddCrafts.Designer.cs">
       <DependentUpon>201411111631472_AddCrafts.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201411132131400_update.cs" />
+    <Compile Include="Migrations\201411132131400_update.Designer.cs">
+      <DependentUpon>201411132131400_update.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201411132330413_add production to craft.cs" />
+    <Compile Include="Migrations\201411132330413_add production to craft.Designer.cs">
+      <DependentUpon>201411132330413_add production to craft.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -285,6 +294,8 @@
     <Content Include="Areas\HelpPage\Views\_ViewStart.cshtml" />
     <None Include="Properties\PublishProfiles\ArcheageCraft.pubxml" />
     <None Include="Scripts\jquery-2.1.1.intellisense.js" />
+    <Content Include="Scripts\app\item.viewmodel.js" />
+    <Content Include="Scripts\app\items.viewmodel.js" />
     <Content Include="Scripts\app\professions.viewmodel.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -341,6 +352,7 @@
     </Content>
     <Content Include="Scripts\jquery-2.1.1.min.map" />
     <Content Include="Views\Home\_Professions.cshtml" />
+    <Content Include="Views\Home\_Items.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -356,6 +368,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201411111631472_AddCrafts.resx">
       <DependentUpon>201411111631472_AddCrafts.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201411132131400_update.resx">
+      <DependentUpon>201411132131400_update.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201411132330413_add production to craft.resx">
+      <DependentUpon>201411132330413_add production to craft.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

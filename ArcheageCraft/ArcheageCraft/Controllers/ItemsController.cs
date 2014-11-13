@@ -18,13 +18,15 @@ namespace ArcheageCraft.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: api/Items
-        public IQueryable<Item> GetItems()
+        [ActionName("")]
+        public async Task<IEnumerable<ItemViewModel>> GetItems()
         {
-            return db.Items;
+            return (await db.Items.ToListAsync()).Select(i => new ItemViewModel(i));
         }
 
         // GET: api/Items/5
         [ResponseType(typeof(Item))]
+        [ActionName("")]
         public async Task<IHttpActionResult> GetItem(int id)
         {
             Item item = await db.Items.FindAsync(id);
@@ -38,6 +40,7 @@ namespace ArcheageCraft.Controllers
 
         // PUT: api/Items/5
         [ResponseType(typeof(void))]
+        [ActionName("")]
         public async Task<IHttpActionResult> PutItem(int id, Item item)
         {
             if (!ModelState.IsValid)
@@ -73,6 +76,7 @@ namespace ArcheageCraft.Controllers
 
         // POST: api/Items
         [ResponseType(typeof(Item))]
+        [ActionName("")]
         public async Task<IHttpActionResult> PostItem(Item item)
         {
             if (!ModelState.IsValid)
@@ -88,6 +92,7 @@ namespace ArcheageCraft.Controllers
 
         // DELETE: api/Items/5
         [ResponseType(typeof(Item))]
+        [ActionName("")]
         public async Task<IHttpActionResult> DeleteItem(int id)
         {
             Item item = await db.Items.FindAsync(id);
@@ -100,6 +105,13 @@ namespace ArcheageCraft.Controllers
             await db.SaveChangesAsync();
 
             return Ok(item);
+        }
+
+        [HttpGet]
+        [ActionName("recipes")]
+        public async Task<IEnumerable<RecipeViewModel>> Recipes(int id)
+        {
+            return (await db.Crafts.Include("CraftItems").Where(c => c.ItemId == id).ToListAsync()).Select(c => new RecipeViewModel(c)).ToList();
         }
 
         protected override void Dispose(bool disposing)
@@ -116,4 +128,55 @@ namespace ArcheageCraft.Controllers
             return db.Items.Count(e => e.ItemId == id) > 0;
         }
     }
+    public class ItemViewModel
+    {
+
+
+        public ItemViewModel(Item i)
+        {
+            // TODO: Complete member initialization
+            this.ItemId = i.ItemId;
+            this.Name = i.Name;
+        }
+        public int ItemId { get; set; }
+        public string Name { get; set; }
+    }
+    public class RecipeViewModel
+    {
+        public RecipeViewModel(Craft c)
+        {
+            Id = c.CraftId;
+            LaborCost = c.LaborCost;
+            ProfessionId = c.ProfessionId;
+            Production = c.Production;
+            Ingredients = c.CraftItems.Select(ci => new IngredientViewModel(ci)).ToList();
+        }
+        public int Id { get; set; }
+
+
+        public int LaborCost { get; set; }
+
+        public int ProfessionId { get; set; }
+
+        public int Production { get; set; }
+
+        public List<IngredientViewModel> Ingredients { get; set; }
+    }
+    public class IngredientViewModel
+    {
+        public IngredientViewModel() { }
+
+        public IngredientViewModel(CraftItem ci)
+        {
+            ItemId = ci.ItemId;
+            Name = ci.Item.Name;
+            Count = ci.Count;
+        }
+        public int ItemId { get; set; }
+        public string Name { get; set; }
+
+        public int Count { get; set; }
+
+    }
+
 }

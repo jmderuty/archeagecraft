@@ -39,5 +39,7 @@ namespace ArcheageCraft.Models
         public System.Data.Entity.DbSet<ArcheageCraft.Models.Price> Prices { get; set; }
 
         public System.Data.Entity.DbSet<ArcheageCraft.Models.Craft> Crafts { get; set; }
+
+        public System.Data.Entity.DbSet<ArcheageCraft.Models.CraftItem> CraftItems { get; set; }
     }
 }

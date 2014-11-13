@@ -28,6 +28,8 @@ namespace ArcheageCraft
                 "~/Scripts/app/app.viewmodel.js",
                 "~/Scripts/app/home.viewmodel.js",
                 "~/Scripts/app/professions.viewmodel.js",
+                "~/Scripts/app/items.viewmodel.js",
+                "~/Scripts/app/item.viewmodel.js",
                 "~/Scripts/app/_run.js"));
 
             // Utilisez la version de développement de Modernizr pour développer et apprendre. Puis, lorsque vous êtes

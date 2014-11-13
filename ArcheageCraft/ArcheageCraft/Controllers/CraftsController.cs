@@ -25,6 +25,7 @@ namespace ArcheageCraft.Controllers
 
         // GET: api/Crafts/5
         [ResponseType(typeof(Craft))]
+        [ActionName("")]
         public async Task<IHttpActionResult> GetCraft(int id)
         {
             Craft craft = await db.Crafts.FindAsync(id);
@@ -36,8 +37,14 @@ namespace ArcheageCraft.Controllers
             return Ok(craft);
         }
 
+        public async Task<IEnumerable<IngredientViewModel>> Ingredients(int id)
+        {
+            return (await db.CraftItems.Where(ci => ci.CraftId == id).ToListAsync()).Select(ci =>new IngredientViewModel(ci));
+        }
+
         // PUT: api/Crafts/5
         [ResponseType(typeof(void))]
+        [ActionName("")]
         public async Task<IHttpActionResult> PutCraft(int id, Craft craft)
         {
             if (!ModelState.IsValid)
@@ -88,6 +95,7 @@ namespace ArcheageCraft.Controllers
 
         // DELETE: api/Crafts/5
         [ResponseType(typeof(Craft))]
+        [ActionName("")]
         public async Task<IHttpActionResult> DeleteCraft(int id)
         {
             Craft craft = await db.Crafts.FindAsync(id);
