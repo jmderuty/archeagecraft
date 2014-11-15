@@ -53,11 +53,12 @@ namespace ArcheageCraft.Controllers
                 return BadRequest();
             }
 
-            var existingItem = await db.Items.FirstOrDefaultAsync(i => i.Name == item.Name);
-            if (existingItem.ItemId != item.ItemId)
+            var conflicts = await db.Items.AnyAsync(i => i.Name == item.Name && i.ItemId != item.ItemId);
+            if (conflicts)
             {
                 return BadRequest(string.Format("Item of name {0} already exist.", item.Name));
             }
+            
 
             db.Entry(item).State = EntityState.Modified;
 
