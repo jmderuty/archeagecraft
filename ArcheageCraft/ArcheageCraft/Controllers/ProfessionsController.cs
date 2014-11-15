@@ -21,7 +21,7 @@ namespace ArcheageCraft.Controllers
         [ActionName("")]
         public IQueryable<Profession> GetProfessions()
         {
-            return db.Professions;
+            return db.Professions.OrderBy(p=>p.Name);
         }
 
         // GET: api/Professions/5

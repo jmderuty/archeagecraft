@@ -21,7 +21,7 @@ namespace ArcheageCraft.Controllers
         [ActionName("")]
         public async Task<IEnumerable<ItemViewModel>> GetItems()
         {
-            return (await db.Items.ToListAsync()).Select(i => new ItemViewModel(i));
+            return (await db.Items.OrderBy(i=>i.Name).ToListAsync()).Select(i => new ItemViewModel(i));
         }
 
         // GET: api/Items/5
@@ -51,6 +51,12 @@ namespace ArcheageCraft.Controllers
             if (id != item.ItemId)
             {
                 return BadRequest();
+            }
+
+            var existingItem = await db.Items.FirstOrDefaultAsync(i => i.Name == item.Name);
+            if (existingItem.ItemId != item.ItemId)
+            {
+                return BadRequest(string.Format("Item of name {0} already exist.", item.Name));
             }
 
             db.Entry(item).State = EntityState.Modified;
@@ -83,7 +89,11 @@ namespace ArcheageCraft.Controllers
             {
                 return BadRequest(ModelState);
             }
-
+            var existingItem = await db.Items.FirstOrDefaultAsync(i => i.Name == item.Name);
+            if(existingItem != null)
+            {
+                return BadRequest(string.Format("Item of name {0} already exist.",item.Name));
+            }
             db.Items.Add(item);
             await db.SaveChangesAsync();
 

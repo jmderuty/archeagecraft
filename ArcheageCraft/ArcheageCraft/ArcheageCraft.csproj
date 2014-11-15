@@ -244,6 +244,10 @@
     <Compile Include="Migrations\201411132330413_add production to craft.Designer.cs">
       <DependentUpon>201411132330413_add production to craft.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201411151839477_Unique_Item_Constraint.cs" />
+    <Compile Include="Migrations\201411151839477_Unique_Item_Constraint.Designer.cs">
+      <DependentUpon>201411151839477_Unique_Item_Constraint.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Craft.cs" />
@@ -374,6 +378,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201411132330413_add production to craft.resx">
       <DependentUpon>201411132330413_add production to craft.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201411151839477_Unique_Item_Constraint.resx">
+      <DependentUpon>201411151839477_Unique_Item_Constraint.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
