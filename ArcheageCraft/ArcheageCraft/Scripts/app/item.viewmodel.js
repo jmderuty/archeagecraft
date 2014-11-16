@@ -1,6 +1,7 @@
 ﻿function ItemViewModel(app, dataModel) {
     var self = this;
 
+
     self.crafts = ko.observableArray();
     self.template = "item";
     self.name = ko.observable('');
@@ -8,6 +9,11 @@
     self.merchantCost = ko.observable(0);
     self.id = ko.observable(0);
     self.professions = ko.observableArray();
+
+    self.auctionPrices = ko.observableArray();
+
+    self.newAuctionPrice = ko.observable();
+    self.newAuctionComment = ko.observable();
 
     self.remove = function () {
         if (confirm("Êtes-vous sûr?")) {
@@ -26,18 +32,18 @@
     };
 
     self.newRecipe = function () { };
-   
+
     self.update = function () {
         $.ajax({
             method: 'put',
             url: '/api/items/' + self.id(),
             contentType: "application/json; charset=utf-8",
-            data:JSON.stringify(
+            data: JSON.stringify(
                 {
                     vocationBadgeCost: self.vocationBadgeCost(),
                     merchantCost: self.merchantCost(),
                     name: self.name(),
-                    itemId:self.id()
+                    itemId: self.id()
                 }),
             headers: {
                 'Authorization': 'Bearer ' + app.dataModel.getAccessToken()
@@ -60,6 +66,7 @@
                 self.vocationBadgeCost(data.vocationBadgeCost);
                 self.merchantCost(data.merchantCost);
                 self.refreshCraft();
+                self.refreshAuctionPrices();
             }
         });
     };
@@ -77,7 +84,7 @@
     self.refreshCraft = function () {
         $.ajax({
             method: 'get',
-            url: '/api/items/recipes/' + self.id(),
+            url: '/api/items/' + self.id() + '/recipes',
             contentType: "application/json; charset=utf-8",
             headers: {
                 'Authorization': 'Bearer ' + app.dataModel.getAccessToken()
@@ -91,13 +98,62 @@
             }
         });
     }
+    self.refreshAuctionPrices = function () {
+        $.ajax({
+            method: 'get',
+            url: '/api/items/' + self.id() + '/prices',
+            contentType: "application/json; charset=utf-8",
+            headers: {
+                'Authorization': 'Bearer ' + app.dataModel.getAccessToken()
+            },
+            success: function (data) {
+                self.auctionPrices.removeAll();
+                for (var i = 0; i < data.length; i++) {
+                    self.auctionPrices.push(data[i]);
+                }
+            }
+        });
+    }
 
+    self.addAuctionPrice = function () {
+        $.ajax({
+            method: 'post',
+            url: '/api/prices',
+            contentType: "application/json; charset=utf-8",
+            headers: {
+                'Authorization': 'Bearer ' + app.dataModel.getAccessToken()
+            },
+            data: JSON.stringify({
+                itemId: self.id(),
+                value: self.newAuctionPrice(),
+                comment: self.newAuctionComment()
 
+            }),
+            success: function (data) {
+                self.auctionPrices.push(data);
+            }
+        });
+    };
+    self.removeAuctionPrice = function (model) {
+        $.ajax({
+            method: 'delete',
+            url: '/api/prices/' + model.priceId,
+            contentType: "application/json; charset=utf-8",
+            headers: {
+                'Authorization': 'Bearer ' + app.dataModel.getAccessToken()
+            },
+
+            success: function (data) {
+                self.auctionPrices.remove(model);
+            }
+        });
+    }
+    
     Sammy(function () {
 
         this.get('#items/:id', function (context) {
             var id = context.params['id']
-            
+
             self.id(id);
             app.viewModel(self);
             self.refresh();

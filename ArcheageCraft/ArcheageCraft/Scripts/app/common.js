@@ -43,3 +43,40 @@ window.common = (function () {
 
     return common;
 })();
+
+ko.bindingHandlers.chart = {
+    chart: null,
+    init: function (element, valueAccessor, allBindings, viewModel, bindingContext) {
+        this.chart = new Highcharts.Chart({
+            chart: {
+                renderTo: element,
+                zoomType: 'x'
+            },
+            xAxis: {
+                type: 'datetime',
+                dateTimeLabelFormats: { // don't display the dummy year
+                    month: '%e. %b',
+                    year: '%b'
+                },
+
+                title: {
+                    text: 'Date'
+                }
+            },
+            yAxis: {
+                title: {
+                    text: "Price"
+                }
+            },
+            series: [{ data: [] }]
+        });
+    },
+    update: function (element, valueAccessor, allBindings, viewModel, bindingContext) {
+        var value = ko.unwrap(valueAccessor());
+        var data = [];
+        for (var i = 0; i < value.length; i++) {
+            data.push({x:new Date(value[i].date),y:value[i].value})
+        }
+        chart.series[0].setData(data)
+    }
+};

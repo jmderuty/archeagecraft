@@ -78,6 +78,8 @@ namespace ArcheageCraft.Controllers
         [ActionName("")]
         public async Task<IHttpActionResult> PostPrice(Price price)
         {
+            price.Date = DateTime.UtcNow;
+            price.UserName = User.Identity.Name;
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);

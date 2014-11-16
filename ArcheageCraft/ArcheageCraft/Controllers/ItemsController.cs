@@ -125,6 +125,12 @@ namespace ArcheageCraft.Controllers
             return (await db.Crafts.Include("CraftItems").Where(c => c.ItemId == id).ToListAsync()).Select(c => new RecipeViewModel(c)).ToList();
         }
 
+        [HttpGet]
+        [ActionName("prices")]
+        public async Task<IEnumerable<Price>> Prices(int id)
+        {
+            return (await db.Prices.Where(p => p.ItemId == id).ToListAsync());
+        }
         protected override void Dispose(bool disposing)
         {
             if (disposing)

@@ -24,9 +24,14 @@ namespace ArcheageCraft
             config.MapHttpAttributeRoutes();
             config.Routes.MapHttpRoute(
                 name: "recipes",
-                routeTemplate: "api/items/recipes/{id}",
+                routeTemplate: "api/items/{id}/recipes",
                 defaults: new { controller = "items", action="recipes",id = RouteParameter.Optional }
             );
+            config.Routes.MapHttpRoute(
+               name: "prices",
+               routeTemplate: "api/items/{id}/prices",
+               defaults: new { controller = "items", action = "prices", id = RouteParameter.Optional }
+           );
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",
                 routeTemplate: "api/{controller}/{id}",
