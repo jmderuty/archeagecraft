@@ -10,6 +10,8 @@ namespace ArcheageCraft.Models
     {
         public int ItemId { get; set; }
 
+        public string Category { get; set; }
+
         public string Name { get; set; }
 
         public int MerchantCost { get; set; }

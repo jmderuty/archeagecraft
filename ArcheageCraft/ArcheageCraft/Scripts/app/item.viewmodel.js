@@ -5,6 +5,7 @@
     self.crafts = ko.observableArray();
     self.template = "item";
     self.name = ko.observable('');
+    self.category = ko.observable('');
     self.vocationBadgeCost = ko.observable(0);
     self.merchantCost = ko.observable(0);
     self.id = ko.observable(0);
@@ -43,6 +44,7 @@
                     vocationBadgeCost: self.vocationBadgeCost(),
                     merchantCost: self.merchantCost(),
                     name: self.name(),
+                    category:self.category(),
                     itemId: self.id()
                 }),
             headers: {
@@ -65,6 +67,8 @@
                 self.name(data.name);
                 self.vocationBadgeCost(data.vocationBadgeCost);
                 self.merchantCost(data.merchantCost);
+                self.category(data.category);
+
                 self.refreshCraft();
                 self.refreshAuctionPrices();
             }
@@ -151,7 +155,7 @@
     
     Sammy(function () {
 
-        this.get('#items/:id', function (context) {
+        this.get('#item/:id', function (context) {
             var id = context.params['id']
 
             self.id(id);

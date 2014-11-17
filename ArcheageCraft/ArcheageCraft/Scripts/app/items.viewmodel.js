@@ -5,14 +5,16 @@
     self.newItemName = ko.observable('');
     self.newItemMerchantCost = ko.observable(0);
     self.newItemVocationBadgesCost = ko.observable(0);
+    self.newItemCategory = ko.observable('');
 
     self.template = "items";
     self.items = ko.observableArray();
-
+    self.categories = ko.observableArray();
+    self.cat = ko.observable('');
     self.refresh = function () {
         $.ajax({
             method: 'get',
-            url: '/api/items',
+            url: '/api/items?cat=' + self.cat(),
             contentType: "application/json; charset=utf-8",
             headers: {
                 'Authorization': 'Bearer ' + app.dataModel.getAccessToken()
@@ -22,11 +24,33 @@
                 for (i = 0; i < data.length; i++) {
                     self.items.push(data[i]);
                 }
-                
+
             }
         });
     };
     
+    self.refreshCategories = function () {
+        $.ajax({
+            method: 'get',
+            url: '/api/items/categories',
+            contentType: "application/json; charset=utf-8",
+            headers: {
+            },
+            success: function (data) {
+                self.categories.removeAll();
+                for (i = 0; i < data.length; i++) {
+                    if (data[i] == null) {
+                        data[i] = '';
+                    }
+                    self.categories.push(data[i]);
+                }
+                if (self.cat() == '') {
+                    self.cat(data[0]);
+                }
+                self.refresh();
+            }
+        });
+    };
     self.create = function () {
         if (self.newItemName() != '') {
             $.ajax({
@@ -37,7 +61,8 @@
                     {
                         name: self.newItemName(),
                         merchantCost: self.newItemMerchantCost(),
-                        vocationBadgeCost : self.newItemVocationBadgesCost()
+                        vocationBadgeCost: self.newItemVocationBadgesCost(),
+                        category: self.newItemCategory()
                     }),
                 headers: {
                     'Authorization': 'Bearer ' + app.dataModel.getAccessToken()
@@ -51,9 +76,14 @@
 
     Sammy(function () {
         this.get('#items', function (context) {
-            
+            self.cat('');
             app.viewModel(self);
-            self.refresh();
+            self.refreshCategories();
+        });
+        this.get('#items/:cat', function (context) {
+            self.cat(context.params['cat']);
+            app.viewModel(self);
+            self.refreshCategories();
         });
         //this.get('/', function () { this.app.runRoute('get', '#home') });
     });

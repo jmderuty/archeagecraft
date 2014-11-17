@@ -19,9 +19,16 @@ namespace ArcheageCraft.Controllers
 
         // GET: api/Items
         [ActionName("")]
-        public async Task<IEnumerable<ItemViewModel>> GetItems()
+        public async Task<IEnumerable<ItemViewModel>> GetItems(string cat)
         {
-            return (await db.Items.OrderBy(i=>i.Name).ToListAsync()).Select(i => new ItemViewModel(i));
+            if (cat == "" || cat == null)
+            {
+                return (await db.Items.OrderBy(i => i.Name).Where(i => i.Category == "" || i.Category == null).ToListAsync()).Select(i => new ItemViewModel(i));
+            }
+            else
+            {
+                return (await db.Items.OrderBy(i => i.Name).Where(i => i.Category == cat).ToListAsync()).Select(i => new ItemViewModel(i));
+            }
         }
 
         // GET: api/Items/5
@@ -58,7 +65,7 @@ namespace ArcheageCraft.Controllers
             {
                 return BadRequest(string.Format("Item of name {0} already exist.", item.Name));
             }
-            
+
 
             db.Entry(item).State = EntityState.Modified;
 
@@ -80,7 +87,12 @@ namespace ArcheageCraft.Controllers
 
             return StatusCode(HttpStatusCode.NoContent);
         }
-
+        [HttpGet]
+        [ActionName("Categories")]
+        public async Task<IEnumerable<string>> GetCategories()
+        {
+            return await db.Items.Select(i => i.Category).Distinct().ToListAsync();
+        }
         // POST: api/Items
         [ResponseType(typeof(Item))]
         [ActionName("")]
@@ -91,9 +103,9 @@ namespace ArcheageCraft.Controllers
                 return BadRequest(ModelState);
             }
             var existingItem = await db.Items.FirstOrDefaultAsync(i => i.Name == item.Name);
-            if(existingItem != null)
+            if (existingItem != null)
             {
-                return BadRequest(string.Format("Item of name {0} already exist.",item.Name));
+                return BadRequest(string.Format("Item of name {0} already exist.", item.Name));
             }
             db.Items.Add(item);
             await db.SaveChangesAsync();

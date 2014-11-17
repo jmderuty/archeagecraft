@@ -1,32 +1,86 @@
 ﻿
 <script type="text/html" id="items-template">
     <h3>Items</h3>
-    <ul data-bind="foreach:items">
-        <li>
-            <a data-bind="attr:{href:'#items/'+itemId},text:name"></a>
-        </li>
+    <ul class="nav nav-tabs" data-bind="foreach:categories">
+        <li data-bind="css:{ active:$parent.cat() == $data}"><a data-bind="text:$data,attr:{href:'#items'+($data!=''?'/':'')+$data}"></a></li>
     </ul>
-    <fieldset>
-        <legend>New item</legend>
-        <label>Name</label>
-        <input type="text" data-bind="value:newItemName" />
-        <label>Merchant cost (pc)</label>
-        <input type="text" data-bind="value:newItemMerchantCost" />
-        <label>Vocation badge cost</label>
-        <input type="text" data-bind="value:newItemVocationBadgesCost" />
-        <p>All prices are in copper: For 1g8s30c write 10830. Set prices to 0 if not buyable.</p>
-        <button data-bind="click:create">Create</button>
-    </fieldset>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>
+                    Name
+                </th>
+            </tr>
+        </thead>
+        <tbody data-bind="foreach:items">
+            <tr>
+                <td>
+                    <a data-bind="attr:{href:'#item/'+itemId},text:name"></a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <form class="form-horizontal" role="form">
+        <fieldset>
+            <legend>New item</legend>
+            <div class="form-group">
+                <label class="col-md-2 control-label" for="name">Name</label>
+                <div class="col-md-10">
+                    <input id="name" type="text" data-bind="value:newItemName" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-2 control-label" for="category">Category</label>
+                <div class="col-md-10">
+                    <input id="category" type="text" data-bind="value:newItemCategory" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-2 control-label" for="merchantCost">Merchant cost (pc)</label>
+                <div class="col-md-10">
+                    <input id="merchantCost" type="text" data-bind="value:newItemMerchantCost" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-2 control-label" for="vocationBadge">Vocation badge cost</label>
+                <div class="col-md-10">
+                    <input id="vocationBadge" type="text" data-bind="value:newItemVocationBadgesCost" />
+                </div>
+            </div>
+            <p>All prices are in copper: For 1g8s30c write 10830. Set prices to 0 if not buyable.</p>
+            <button data-bind="click:create">Create</button>
+        </fieldset>
+    </form>
 </script>
 <script type="text/html" id="item-template">
     <h3>Item</h3>
-    <label for="name">Name</label>
-    <input data-bind="value:name" id="name" type="text" />
-    <label>Merchant cost (pc)</label>
-    <input type="text" data-bind="value:merchantCost" />
-    <label>Vocation badge cost</label>
-    <input type="text" data-bind="value:vocationBadgeCost" />
-    <p>All prices are in copper: For 1g8s30c write 10830. Set prices to 0 if not buyable.</p>
+    <form class="form-horizontal" role="form">
+        <div class="form-group">
+            <label class="col-md-2 control-label">Name</label>
+            <div class="col-md-10">
+                <input data-bind="value:name" id="name" type="text" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-2 control-label">Merchant cost (pc)</label>
+            <div class="col-md-10">
+                <input type="text" data-bind="value:merchantCost" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-2 control-label">Vocation badge cost</label>
+            <div class="col-md-10">
+                <input type="text" data-bind="value:vocationBadgeCost" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-2 control-label">Category</label>
+            <div class="col-md-10">
+                <input type="text" data-bind="value:category" />
+            </div>
+        </div>
+        <p>All prices are in copper: For 1g8s30c write 10830. Set prices to 0 if not buyable.</p>
+    </form>
     <p>
         <button data-bind="click:update" class="btn btn-default">Update</button>
         <button data-bind="click:remove" class="btn btn-default">Delete item</button>
@@ -65,13 +119,13 @@
     <h3>Auction prices</h3>
     <form class="form-horizontal" role="form">
         <div class="form-group">
-            <label>Prix</label>
+            <label class="col-md-2 control-label">Prix</label>
             <div class="col-md-10">
                 <input type="number" data-bind="value:newAuctionPrice" />
             </div>
         </div>
         <div class="form-group">
-            <label>Comment</label>
+            <label class="col-md-2 control-label">Comment</label>
             <div class="col-md-10">
                 <textarea data-bind="value:newAuctionComment"></textarea>
             </div>
