@@ -52,6 +52,64 @@
         </fieldset>
     </form>
 </script>
+
+<script type="text/html" id="recipe-template">
+    <form class="form-horizontal" role="form">
+
+        <div class="form-group">
+            <label class="col-md-2 control-label" for="merchantCost">profession</label>
+            <div class="col-md-10">
+                <select data-bind="options:$parent.professions, optionsText:'name',value:profession,optionsCaption:'Choose a profession...'"></select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-2 control-label">Labor cost:</label>
+            <div class="col-md-10">
+                <input data-bind="value:laborCost" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-2 control-label">Production</label>
+            <div class="col-md-10">
+                <input data-bind="value:production" />
+            </div>
+        </div>
+        <div data-bind="if:id()!=0">
+            <h5>Ingredients</h5>
+            <ul data-bind="foreach:ingredients">
+                <li>
+                    <dl>
+                        <dt data-bind="text:name"></dt>
+                        <dd>Quantity: <span data-bind="text:count"></span></dd>
+                        <dd><button data-bind="click:$parent.removeIngredient" class="btn btn-default">Remove</button></dd>
+                    </dl>
+                </li>
+            </ul>
+            <fieldset>
+                <legend>Add ingredient</legend>
+                <div class="form-group">
+                    <label class="col-md-2 control-label">Ingredient</label>
+                    <div class="col-md-10">
+                        <select data-bind="options:items,value:newIngredient"></select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-2 control-label">Quantity</label>
+                    <div class="col-md-10">
+                        <input type="number" data-bind="value:newIngredientCount" />
+                    </div>
+                </div>
+                <button data-bind="click:addIngredient" class="btn btn-default">Add</button>
+            </fieldset>
+        </div>
+        <div data-bind="if:id()!=0">
+            <button data-bind="click:$parent.removeCraft" class="btn btn-default">Delete recipe</button>
+        </div>
+        
+    </form>
+    <hr />
+</script>
+
 <script type="text/html" id="item-template">
     <h3>Item</h3>
     <form class="form-horizontal" role="form">
@@ -87,34 +145,14 @@
     </p>
     <hr />
     <h3>Recipes</h3>
-    <div data-bind="foreach:crafts">
-        <select data-bind="options:$parent.professions"></select>
-        <label>Labor cost:</label>
-        <input data-bind="value:laborCost" />
-        <label>Production</label>
-        <input data-bind="value:production" />
-        <h5>Ingredients</h5>
-        <ul data-bind="foreach:ingredients">
-            <li>
-                <dl>
-                    <dt data-bind="text:name"></dt>
-                    <dd>Quantity: <span data-bind="text:count"></span></dd>
-                    <dd><button data-bind="click:$parent.removeIngredient" class="btn btn-default">Remove</button></dd>
-                </dl>
-            </li>
-        </ul>
-        <fieldset>
-            <legend>Add ingredient</legend>
-            <label>Ingredient</label>
-            <select data-bind="options:items,value:newIngredient"></select>
-            <label>Quantity</label>
-            <input type="number" data-bind="value:newIngredientCount" />
-            <button data-bind="click:addIngredient" class="btn btn-default">Add</button>
-        </fieldset>
-        <a data-bind="click:$parent.removeCraft" class="btn btn-default">Delete recipe</a>
-        <hr />
+    <div data-bind="template: {foreach:crafts, name:'recipe-template'}">
+
     </div>
-    <button data-bind="click:newRecipe" class="btn btn-default">Add new recipe</button>
+    <div data-bind="if:newRecipe">
+        <span>Test</span>
+        <div data-bind="template: {data:createRecipeVM, name:'recipe-template'}"></div>
+        <button data-bind="click:newRecipe" class="btn btn-default">Add new recipe</button>
+    </div>
     <hr />
     <h3>Auction prices</h3>
     <form class="form-horizontal" role="form">

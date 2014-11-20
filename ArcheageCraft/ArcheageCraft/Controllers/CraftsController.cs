@@ -80,6 +80,7 @@ namespace ArcheageCraft.Controllers
 
         // POST: api/Crafts
         [ResponseType(typeof(Craft))]
+        [ActionName("")]
         public async Task<IHttpActionResult> PostCraft(Craft craft)
         {
             if (!ModelState.IsValid)

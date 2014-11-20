@@ -10,12 +10,14 @@
     self.merchantCost = ko.observable(0);
     self.id = ko.observable(0);
     self.professions = ko.observableArray();
-
+    
     self.auctionPrices = ko.observableArray();
 
     self.newAuctionPrice = ko.observable();
     self.newAuctionComment = ko.observable();
 
+    self.createRecipeVM = ko.observable('blabla');
+    self.createRecipeVM(new RecipeViewModel(app, self, null));
     self.remove = function () {
         if (confirm("Êtes-vous sûr?")) {
             $.ajax({
@@ -32,7 +34,40 @@
         }
     };
 
-    self.newRecipe = function () { };
+    self.newRecipe = function () {
+        $.ajax({
+            method: 'post',
+            url: '/api/crafts',
+            contentType: "application/json; charset=utf-8",
+            data: JSON.stringify({
+                itemId: self.id(),
+                production: self.createRecipeVM().production(),
+                professionId: self.createRecipeVM().profession().professionId,
+                laborCost:self.createRecipeVM().laborCost()
+            }),
+            headers: {
+                'Authorization': 'Bearer ' + app.dataModel.getAccessToken()
+            },
+            success: function (data) {
+                self.refreshCraft();
+                self.createRecipeVM(new RecipeViewModel(app, self, null));
+            }
+        });
+    };
+    self.removeCraft = function (craft) {
+        $.ajax({
+            method: 'delete',
+            url: '/api/crafts/'+craft.id(),
+            contentType: "application/json; charset=utf-8",
+            headers: {
+                'Authorization': 'Bearer ' + app.dataModel.getAccessToken()
+            },
+            success: function (data) {
+                self.refreshCraft();
+               
+            }
+        });
+    }
 
     self.update = function () {
         $.ajax({
@@ -77,6 +112,12 @@
 
     self.loadProfessions = function () {
         $.ajax({
+            method: 'get',
+            url: '/api/professions',
+            contentType: "application/json; charset=utf-8",
+            headers: {
+                'Authorization': 'Bearer ' + app.dataModel.getAccessToken()
+            },
             success: function (data) {
                 for (var i = 0; i < data.length; i++) {
                     self.professions.push(data[i]);
@@ -135,6 +176,8 @@
             }),
             success: function (data) {
                 self.auctionPrices.push(data);
+                self.newAuctionPrice('');
+                self.newAuctionComment('');
             }
         });
     };
@@ -172,6 +215,16 @@
 function RecipeViewModel(app, itemViewModel, craft) {
     self = this;
 
+    if (craft == null) {
+        craft = {
+            laborCost: '',
+            professionId: 0,
+            production: 1,
+            ingredients: [],
+            id:0
+        };
+    }
+    self.id = ko.observable(craft.id);
     self.laborCost = ko.observable(craft.laborCost);
     self.production = ko.observable(craft.production);
     self.ingredients = ko.observableArray();
@@ -182,10 +235,10 @@ function RecipeViewModel(app, itemViewModel, craft) {
 
     self.profession = ko.observable();
     var professions = itemViewModel.professions;
-    if (data.professionId != null) {
-        for (var i = 0; i < professions.length; i++) {
-            if (professions[i].professionId == data.professionId) {
-                ko.observable(professions[i]);
+    if (craft.professionId != null) {
+        for (var i = 0; i < professions().length; i++) {
+            if (professions()[i].professionId == craft.professionId) {
+                self.profession(professions()[i]);
                 break;
             }
         }

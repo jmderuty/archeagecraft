@@ -41,7 +41,7 @@ namespace ArcheageCraft.Controllers
             {
                 return NotFound();
             }
-
+            item.Crafts.Clear();
             return Ok(item);
         }
 
