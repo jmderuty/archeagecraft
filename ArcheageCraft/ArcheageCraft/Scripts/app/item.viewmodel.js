@@ -247,7 +247,10 @@ function RecipeViewModel(app, itemViewModel, craft) {
 
     self.newIngredient = ko.observable();
     self.newIngredientCount = ko.observable(0);
+    self.ingredientOptions = ko.observableArray();
+    self.newIngredient.subscribe(function (newValue) {
 
+    });
     self.removeIngredient = function (ingredient) {
 
         $.ajax({
