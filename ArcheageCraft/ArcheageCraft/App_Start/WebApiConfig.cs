@@ -33,6 +33,11 @@ namespace ArcheageCraft
                 defaults: new { controller = "items", action = "categories" }
             );
             config.Routes.MapHttpRoute(
+                name: "searchItem",
+                routeTemplate: "api/items/search",
+                defaults: new { controller = "items", action = "search" }
+            );
+            config.Routes.MapHttpRoute(
                name: "prices",
                routeTemplate: "api/items/{id}/prices",
                defaults: new { controller = "items", action = "prices", id = RouteParameter.Optional }

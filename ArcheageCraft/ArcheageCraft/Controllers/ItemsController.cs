@@ -31,6 +31,13 @@ namespace ArcheageCraft.Controllers
             }
         }
 
+        [ActionName("search")]
+        [HttpGet]
+        public async Task<IEnumerable<ItemViewModel>> Search(string query)
+        {
+            return (await db.Items.OrderBy(i => i.Name).Where(i => i.Name.Contains(query)).ToListAsync()).Select(i => new ItemViewModel(i));
+        }
+
         // GET: api/Items/5
         [ResponseType(typeof(Item))]
         [ActionName("")]

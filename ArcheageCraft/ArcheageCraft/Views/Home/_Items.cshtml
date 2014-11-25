@@ -90,7 +90,7 @@
                 <div class="form-group">
                     <label class="col-md-2 control-label">Ingredient</label>
                     <div class="col-md-10">
-                        <input data-bind="autoComplete:ingredientOptions,value:newIngredient,optionsText:'name',autoCompleteOptions:{autoFocus:false}" />
+                        <input data-bind="autoComplete:newIngredient,onRequest:onRequestIngredients" />
                     </div>
                 </div>
                 <div class="form-group">

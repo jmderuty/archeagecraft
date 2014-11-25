@@ -10,7 +10,7 @@
     self.merchantCost = ko.observable(0);
     self.id = ko.observable(0);
     self.professions = ko.observableArray();
-    
+
     self.auctionPrices = ko.observableArray();
 
     self.newAuctionPrice = ko.observable();
@@ -43,7 +43,7 @@
                 itemId: self.id(),
                 production: self.createRecipeVM().production(),
                 professionId: self.createRecipeVM().profession().professionId,
-                laborCost:self.createRecipeVM().laborCost()
+                laborCost: self.createRecipeVM().laborCost()
             }),
             headers: {
                 'Authorization': 'Bearer ' + app.dataModel.getAccessToken()
@@ -57,14 +57,14 @@
     self.removeCraft = function (craft) {
         $.ajax({
             method: 'delete',
-            url: '/api/crafts/'+craft.id(),
+            url: '/api/crafts/' + craft.id(),
             contentType: "application/json; charset=utf-8",
             headers: {
                 'Authorization': 'Bearer ' + app.dataModel.getAccessToken()
             },
             success: function (data) {
                 self.refreshCraft();
-               
+
             }
         });
     }
@@ -79,7 +79,7 @@
                     vocationBadgeCost: self.vocationBadgeCost(),
                     merchantCost: self.merchantCost(),
                     name: self.name(),
-                    category:self.category(),
+                    category: self.category(),
                     itemId: self.id()
                 }),
             headers: {
@@ -195,7 +195,7 @@
             }
         });
     }
-    
+
     Sammy(function () {
 
         this.get('#item/:id', function (context) {
@@ -221,7 +221,7 @@ function RecipeViewModel(app, itemViewModel, craft) {
             professionId: 0,
             production: 1,
             ingredients: [],
-            id:0
+            id: 0
         };
     }
     self.id = ko.observable(craft.id);
@@ -248,14 +248,30 @@ function RecipeViewModel(app, itemViewModel, craft) {
     self.newIngredient = ko.observable();
     self.newIngredientCount = ko.observable(0);
     self.ingredientOptions = ko.observableArray();
-    self.newIngredient.subscribe(function (newValue) {
 
-    });
+    self.onRequestIngredients = function (request, response) {
+        $.ajax({
+            method: 'get',
+            url: 'api/items/search?query=' + request.term,
+            contentType: "application/json; charset=utf-8",
+            headers: {
+                'Authorization': 'Bearer ' + app.dataModel.getAccessToken()
+            },
+            success: function (data) {
+                response(data);
+            }
+
+        });
+    };
     self.removeIngredient = function (ingredient) {
 
         $.ajax({
             method: 'delete',
             url: '/api/ingredients/' + ingredient.id,
+            contentType: "application/json; charset=utf-8",
+            headers: {
+                'Authorization': 'Bearer ' + app.dataModel.getAccessToken()
+            },
             success: function () {
                 self.refreshIngredients();
             }
